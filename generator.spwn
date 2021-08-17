@@ -1,11 +1,10 @@
 rand = import rand
 
-// 127 blocks for 15*15 maze
 n = 15
 let maze = []
-for i in ..15 {
+for i in ..n {
     let row = []
-    for j in ..15 {
+    for j in ..n {
         row.push(0)
     }
     maze.push(row)
@@ -68,8 +67,8 @@ while (stack.length > 0) {
     }
 }
 
-for y_pos in ..15 {
-    for x_pos in ..15 {
+for y_pos in ..n {
+    for x_pos in ..n {
         if (maze[y_pos][x_pos] == 0){
             $.add(obj {
                 obj_props.OBJ_ID:1,
