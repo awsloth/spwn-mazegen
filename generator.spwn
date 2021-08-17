@@ -1,0 +1,81 @@
+rand = import rand
+
+// 127 blocks for 15*15 maze
+n = 15
+let maze = []
+for i in ..15 {
+    let row = []
+    for j in ..15 {
+        row.push(0)
+    }
+    maze.push(row)
+}
+
+maze[0][0] = 1
+
+let x = 0
+let y = 0
+let px = 0
+let py = 0
+let options = []
+
+find_path = (grid, x, y){
+    let choices = []
+    if (x >= 2 && grid[y][x-2] == 0) {
+        choices.push([x-2, y])
+    }
+    if (y >= 2 && grid[y-2][x] == 0) {
+        choices.push([x, y-2])
+    }
+    if (x <= grid.length-3 && grid[y][x+2] == 0) {
+        choices.push([x+2, y])
+    }
+    if (y <= grid.length-3 && grid[y+2][x] == 0) {
+        choices.push([x, y+2])
+    }
+    return choices
+}
+
+let stack = [[0, 0]]
+
+while (stack.length > 0) {
+    px = x
+    py = y
+    options = find_path(maze, x, y)
+    if (options.length > 0) {
+        // Add random bit here
+        let choice = options[rand.randint(options.length-1)]
+        x = choice[0]
+        y = choice[1]
+        stack.push([x, y])
+        if px == x {
+            let y_pos = y+py
+            y_pos /%=2
+            maze[y_pos][x] = 1
+            maze[y][x] = 1
+        }
+        else {
+            let x_pos = x+px
+            x_pos /%= 2
+            maze[y][x_pos] = 1
+            maze[y][x] = 1
+        }
+    }
+    else {
+        val = stack.pop()
+        x = val[0]
+        y = val[1]
+    }
+}
+
+for y_pos in ..15 {
+    for x_pos in ..15 {
+        if (maze[y_pos][x_pos] == 0){
+            $.add(obj {
+                obj_props.OBJ_ID:1,
+                obj_props.X:x_pos*30,
+                obj_props.Y:y_pos*30
+            })
+        }
+    }
+}
