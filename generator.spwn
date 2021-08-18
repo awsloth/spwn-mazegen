@@ -1,6 +1,8 @@
-rand = import rand
+random = import rand
 
-n = 15
+let n = $.get_input("Size: ")
+n = n.substr(0, n.length-1) as @number
+
 let maze = []
 for i in ..n {
     let row = []
@@ -43,7 +45,7 @@ while (stack.length > 0) {
     options = find_path(maze, x, y)
     if (options.length > 0) {
         // Add random bit here
-        let choice = options[rand.randint(options.length-1)]
+        let choice = random.choice(find_path(maze, x, y))
         x = choice[0]
         y = choice[1]
         stack.push([x, y])
